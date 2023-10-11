@@ -18,7 +18,7 @@ data, class_to_idx, paths = organize_images(images_dir,nbr_classes)
 
 
 # 1. Charger le modèle
-model_path = 'Model/50epochs_100x100_lr0,0001_poisson/50epochs_100x100_lr0,0001_poisson.pth'
+model_path = 'Model/50epochs_100x100_lr0,0001/50epochs_100x100_lr0,0001.pth'
 model = SimpleCNN(num_classes=nbr_classes)
 model.load_state_dict(torch.load(model_path))
 model.eval()  # Mettre le modèle en mode évaluation
