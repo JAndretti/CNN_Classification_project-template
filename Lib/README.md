@@ -1,4 +1,14 @@
-# ImageProcessor Class
+# Library (Lib)
+
+## Présentation
+
+La bibliothèque `Lib` est destinée à faciliter la préparation et le traitement d'images pour les applications de machine learning, en particulier avec PyTorch. Elle contient plusieurs modules clés : `ImageProcessor`, `cnn.py`, et `data_prep.py`.
+
+## Modules
+
+## ImageProcessor Class (ImageProcessor.py)
+
+La classe `ImageProcessor` est conçue pour faciliter la gestion, la transformation et l'augmentation d'images contenues dans un dossier spécifique.
 
 ## Présentation
 
@@ -81,6 +91,64 @@ Pour accéder à la liste des tenseurs :
 tensors = processor.tensors
 ```
 
+## data_prep.py
+
+Ce module contient des fonctions destinées à la préparation et à la manipulation de données d'images. Il utilise `ImageProcessor` ainsi que d'autres fonctions pour faciliter le traitement des images.
+
+**Fonctions principales :**
+
+- `data_process(input_path, output_path)` : Applique une série de traitements aux images à partir d'un chemin donné et les sauvegarde dans un autre dossier.
+
+- `to_one_hot(label, num_classes)` : Convertit une étiquette numérique en encodage one-hot.
+
+- `load_pic(base_path)` : Charge des images à partir d'un chemin de base donné.
+
+- `organize_images(base_path, num_classes)` : Organise les images selon leurs classes et renvoie des tenseurs et leurs étiquettes.
+
+- `split_train_test(base_path, num_classes, test_size=0.3)` : Sépare les images en ensembles de formation et de test et renvoie des tenseurs et leurs étiquettes.
+
+- `load_images_and_labels(csv_path, images_dir, class_to_num)` : Charge les images et leurs labels depuis un chemin donné.
+
+## cnn.py : Description et utilisation
+
+Le fichier `cnn.py` contient une implémentation d'un réseau de neurones convolutif (CNN) destiné à la classification d'images.
+
+### Structure du modèle CNN
+
+Le modèle est structuré comme suit :
+
+- **Convolution 1**: Prend 3 canaux d'entrée (pour les images RGB), produit 16 filtres, avec un noyau de 3x3 et un padding de 1. Il est suivi d'une BatchNorm et d'une activation ReLU.
+- **Convolution 2**: Prend 16 canaux d'entrée, produit 32 filtres, avec un noyau de 3x3 et un padding de 1. Il est également suivi d'une BatchNorm et d'une activation ReLU.
+- **Convolution 3**: Prend 32 canaux d'entrée, produit 64 filtres, avec un noyau de 3x3 et un padding de 1. Il est de nouveau suivi d'une BatchNorm et d'une activation ReLU.
+- **Couche entièrement connectée 1**: Transforme une entrée de 64 * 12 * 12 neurones en une sortie de 512 neurones.
+- **Couche entièrement connectée 2**: Transforme une entrée de 512 neurones en une sortie de 256 neurones.
+- **Couche entièrement connectée 3 (sortie)**: Transforme une entrée de 256 neurones en une sortie définie par `num_classes`.
+
+### Fonctions principales
+
+- **set_seeds(seed_value=42)**: Fixe les graines aléatoires pour assurer la reproductibilité.
+- **train_model()**: Gère le processus d'entraînement du modèle. Accepte les chargeurs de données, définit l'optimiseur et le critère de perte, effectue l'entraînement et sauvegarde le modèle.
+- **_save_training_graphs()**: Une fonction interne qui sauvegarde des graphiques de la progression de l'entraînement.
+
+### Utilisation
+
+1. **Importation** : Pour utiliser la classe `SimpleCNN` dans votre script ou notebook, importez-la depuis `cnn.py` :
+    ```python
+    from cnn import SimpleCNN
+    ```
+
+2. **Création d'une instance** : Initialisez le modèle en précisant le nombre de classes souhaité :
+    ```python
+    model = SimpleCNN(num_classes=33)
+    ```
+
+3. **Entraînement** : Après avoir préparé vos chargeurs de données, entraînez le modèle :
+    ```python
+    model.train_model("nom_du_modele", train_loader, epochs=20, learning_rate=0.001, val_loader=val_loader)
+    ```
+
+4. **Graphiques d'entraînement** : Après l'entraînement, les graphiques montrant la perte et la précision seront sauvegardés dans le dossier "Model/nom_du_modele/".
+
 ## Dépendances
 
 - pandas
@@ -93,4 +161,5 @@ tensors = processor.tensors
 
 ## Conclusion
 
-`ImageProcessor` est un outil essentiel pour ceux qui cherchent à préparer rapidement et efficacement leurs images pour des applications de deep learning avec PyTorch.
+La bibliothèque `Lib` est un outil essentiel pour ceux qui cherchent à préparer rapidement et efficacement leurs images pour des applications de deep learning avec PyTorch. Elle fournit un ensemble de fonctions et de classes pour simplifier ce processus, de la manipulation des images à leur transformation en tenseurs utilisables avec PyTorch.
+
